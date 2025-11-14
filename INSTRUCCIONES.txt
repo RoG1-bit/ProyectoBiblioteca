@@ -1,0 +1,217 @@
+================================================================================
+  SISTEMA DE GESTIÓN DE BIBLIOTECA - FASE 1 (30%)
+  Experiencia de Aprendizaje 3 - POO
+================================================================================
+
+FECHA DE ENTREGA: 12 de noviembre
+MODALIDAD: Digital + Presentación por video conferencia
+
+================================================================================
+REQUISITOS PREVIOS
+================================================================================
+
+1. MySQL Server instalado y corriendo
+2. Java JDK 17 o superior
+3. IntelliJ IDEA (o tu IDE favorito)
+4. Maven
+
+================================================================================
+PASOS PARA CONFIGURAR LA BASE DE DATOS
+================================================================================
+
+1. Abrir MySQL Workbench o línea de comandos de MySQL
+
+2. Ejecutar el archivo: database_schema.sql
+   - Este archivo creará la base de datos "biblioteca_db"
+   - Creará todas las tablas necesarias
+   - Insertará datos de prueba (usuarios, tipos de documentos, configuración)
+
+3. Credenciales por defecto en ConexionDB.java:
+   - URL: jdbc:mysql://localhost:3306/biblioteca_db
+   - USER: root
+   - PASSWORD: root
+
+   SI TUS CREDENCIALES SON DIFERENTES:
+   - Editar el archivo: src/main/java/com/tupojecto/biblioteca/dao/ConexionDB.java
+   - Cambiar las constantes USER y PASSWORD con tus credenciales
+
+================================================================================
+PASOS PARA EJECUTAR EL PROYECTO
+================================================================================
+
+1. Abrir IntelliJ IDEA
+
+2. File -> Open -> Seleccionar la carpeta del proyecto
+
+3. Esperar a que Maven descargue las dependencias (mysql-connector-java)
+
+4. Ejecutar el archivo: src/main/java/com/tupojecto/biblioteca/vista/LoginVista.java
+   - Click derecho en el archivo
+   - Seleccionar "Run 'LoginVista.main()'"
+
+5. CREDENCIALES DE PRUEBA:
+
+   ADMINISTRADOR:
+   - Username: admin
+   - Password: admin123
+
+   PROFESOR:
+   - Username: jperez
+   - Password: profesor123
+
+   ALUMNO:
+   - Username: mgarcia
+   - Password: alumno123
+
+================================================================================
+FUNCIONALIDADES IMPLEMENTADAS (FASE 1)
+================================================================================
+
+✓ MÓDULO DE ENCARGADOS (Administrador)
+  - Ingresar usuarios del sistema (Administrador, Profesor, Alumno)
+  - Asignar privilegios por tipo de usuario
+  - Restablecer contraseña de usuarios
+
+✓ MÓDULO DE EJEMPLARES
+  - Ingresar nuevos ejemplares con campos:
+    * Título, Autor, Tipo (Libro, Revista, Tesis, CD, Documento)
+    * Año de publicación, Editorial, ISBN
+    * Cantidad total y disponible
+    * Ubicación física
+  - Consulta de ejemplares (búsqueda por título)
+  - Configurar si un ejemplar es prestable o no
+
+✓ MÓDULO DE PRÉSTAMOS
+  - Crear préstamos para usuarios registrados
+  - Validación: usuarios con mora pueden ser advertidos
+  - Configuración de días de préstamo (por defecto 7 días)
+  - Ver préstamos activos y atrasados
+
+✓ MÓDULO DE DEVOLUCIONES
+  - Registrar devolución de ejemplares
+  - Actualización automática de cantidad disponible
+  - Advertencia para préstamos atrasados
+
+✓ CÁLCULO DE MORA
+  - Sistema de cálculo de mora diaria
+  - Mora por defecto: $0.50 por día
+  - Actualización automática de estado de mora en usuarios
+
+================================================================================
+ESTRUCTURA DEL PROYECTO
+================================================================================
+
+src/main/java/com/tupojecto/biblioteca/
+├── dao/
+│   ├── ConexionDB.java          - Conexión a base de datos (JDBC)
+│   ├── UsuarioDAO.java          - Operaciones CRUD de usuarios
+│   ├── DocumentoDAO.java        - Operaciones CRUD de documentos
+│   ├── PrestamoDAO.java         - Gestión de préstamos y devoluciones
+│   └── MoraDAO.java             - Cálculo y gestión de moras
+│
+├── modelo/
+│   ├── Usuario.java             - Clase modelo Usuario (POO - Encapsulamiento)
+│   ├── Documento.java           - Clase modelo Documento
+│   └── Prestamo.java            - Clase modelo Préstamo
+│
+└── vista/
+    ├── LoginVista.java          - Ventana de login (punto de entrada)
+    ├── MenuPrincipalVista.java  - Menú según tipo de usuario
+    ├── GestionUsuariosVista.java
+    ├── GestionDocumentosVista.java
+    ├── ConsultaDocumentosVista.java
+    ├── GestionPrestamosVista.java
+    ├── GestionDevolucionesVista.java
+    ├── MisPrestamosVista.java
+    └── SolicitudPrestamoVista.java
+
+database_schema.sql              - Script de creación de BD
+
+================================================================================
+CONCEPTOS DE POO APLICADOS
+================================================================================
+
+✓ Encapsulamiento: Atributos privados con getters y setters
+✓ Abstracción: Clases que representan entidades del mundo real
+✓ Manejo de Excepciones: Try-catch en todas las operaciones de BD
+✓ Conexión JDBC: Clase ConexionDB con patrón Singleton
+✓ Patrón DAO: Separación de lógica de datos
+✓ MVC Simplificado: Modelo, Vista, Controlador (DAO)
+
+================================================================================
+CONCEPTOS DE BASES DE DATOS APLICADOS
+================================================================================
+
+✓ Sentencias SQL: INSERT, SELECT, UPDATE, JOIN
+✓ Conexión JDBC: DriverManager, Connection, PreparedStatement
+✓ Transacciones: Uso de commit y rollback
+✓ Integridad referencial: Foreign Keys entre tablas
+✓ Consultas complejas: JOIN entre múltiples tablas
+
+================================================================================
+PROBLEMAS COMUNES Y SOLUCIONES
+================================================================================
+
+PROBLEMA: "Communications link failure"
+SOLUCIÓN: Verificar que MySQL esté corriendo y las credenciales sean correctas
+
+PROBLEMA: "Driver not found"
+SOLUCIÓN: Verificar que Maven descargó la dependencia mysql-connector-java
+
+PROBLEMA: No aparecen los componentes del formulario
+SOLUCIÓN: Verificar que el archivo .form esté en la misma ubicación que .java
+
+PROBLEMA: "Access denied for user"
+SOLUCIÓN: Cambiar USER y PASSWORD en ConexionDB.java
+
+================================================================================
+EVALUACIÓN
+================================================================================
+
+Criterios de evaluación:
+✓ Análisis de diseño de la aplicación
+✓ Diseño de la aplicación (estructura, POO, bases de datos)
+✓ Desarrollo de la primera fase de la aplicación
+
+Puntos clave a destacar en la presentación:
+- Uso de 3 tipos de usuarios con privilegios diferentes
+- Búsqueda manual de documentos en el sistema
+- Validación de mora antes de préstamo
+- Transacciones de BD para garantizar integridad
+- Actualización automática de cantidades disponibles
+- Sistema de cálculo de mora configurable
+
+================================================================================
+PRÓXIMOS PASOS (FASE 2 - 70%)
+================================================================================
+
+Para la siguiente entrega podrías implementar:
+- Reportes del sistema
+- Búsqueda avanzada de documentos
+- Historial completo de préstamos
+- Sistema de pago de moras
+- Exportación de datos
+- Mejoras en la interfaz gráfica
+
+================================================================================
+NOTAS IMPORTANTES
+================================================================================
+
+1. Este proyecto implementa TODOS los requisitos de la Fase 1
+2. El código está comentado para facilitar la comprensión
+3. Incluye validaciones y manejo de errores
+4. Usa transacciones para garantizar integridad de datos
+5. La base de datos incluye datos de prueba para demostración
+
+================================================================================
+CONTACTO Y SOPORTE
+================================================================================
+
+Si tienes problemas:
+1. Revisar esta guía completamente
+2. Verificar que MySQL esté corriendo
+3. Verificar credenciales en ConexionDB.java
+4. Ejecutar database_schema.sql para crear la BD
+
+¡ÉXITO EN TU PROYECTO!
+================================================================================

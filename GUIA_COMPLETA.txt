@@ -1,0 +1,393 @@
+================================================================================
+  SISTEMA DE GESTIÓN DE BIBLIOTECA - FASE 1 (30%)
+  GUÍA COMPLETA DE INSTALACIÓN Y USO
+================================================================================
+
+FECHA DE ENTREGA: 12 de noviembre
+MODALIDAD: Digital + Presentación por video conferencia
+
+================================================================================
+PASO 1: CONFIGURAR LA BASE DE DATOS
+================================================================================
+
+1. Abrir MySQL Workbench o línea de comandos de MySQL
+
+2. Ejecutar TODO el contenido del archivo: database_schema.sql
+
+   Puedes hacerlo de dos formas:
+
+   OPCIÓN A - MySQL Workbench:
+   - Abrir MySQL Workbench
+   - File -> Open SQL Script -> Seleccionar database_schema.sql
+   - Ejecutar todo (icono de rayo ⚡ o Ctrl+Shift+Enter)
+
+   OPCIÓN B - Línea de comandos:
+   - Abrir terminal/cmd
+   - Conectar a MySQL: mysql -u root -p
+   - Ingresar contraseña
+   - Ejecutar: source ruta/completa/database_schema.sql
+
+   O copiar y pegar todo el contenido del archivo en la consola MySQL
+
+3. Verificar que se creó la base de datos:
+   - Ejecutar: USE biblioteca_db;
+   - Ejecutar: SHOW TABLES;
+   - Deberías ver: configuracion_prestamos, documentos, moras, prestamos,
+                    tipos_documento, usuarios
+
+4. Verificar que hay datos de prueba:
+   - Ejecutar: SELECT * FROM usuarios;
+   - Deberías ver 4 usuarios (admin, jperez, mgarcia, clopez)
+
+================================================================================
+PASO 2: CONFIGURAR CREDENCIALES DE BASE DE DATOS
+================================================================================
+
+1. Abrir el archivo: src/main/java/com/tupojecto/biblioteca/dao/ConexionDB.java
+
+2. Buscar estas líneas (líneas 10-12):
+   private static final String URL = "jdbc:mysql://localhost:3306/biblioteca_db";
+   private static final String USER = "root";
+   private static final String PASSWORD = "root";
+
+3. SI TUS CREDENCIALES SON DIFERENTES, cambiar:
+   - USER: tu usuario de MySQL (normalmente "root")
+   - PASSWORD: tu contraseña de MySQL
+
+4. Guardar el archivo
+
+================================================================================
+PASO 3: ABRIR EL PROYECTO EN INTELLIJ IDEA
+================================================================================
+
+1. Abrir IntelliJ IDEA
+
+2. File -> Open
+
+3. Navegar a la carpeta del proyecto: ProyectoBiblioteca
+
+4. Seleccionar la carpeta y hacer clic en OK/Abrir
+
+5. Esperar a que IntelliJ detecte el proyecto Maven
+   - Verás una notificación "Maven projects need to be imported"
+   - Hacer clic en "Import" o "Enable Auto-Import"
+
+6. Esperar a que Maven descargue las dependencias
+   - Verás en la barra inferior: "Downloading..."
+   - Esperar hasta que termine
+
+================================================================================
+PASO 4: EJECUTAR EL PROYECTO
+================================================================================
+
+Tienes DOS OPCIONES para ejecutar el proyecto:
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ OPCIÓN 1: LoginVista.java (CON archivo .form de IntelliJ)          │
+└─────────────────────────────────────────────────────────────────────┘
+
+1. Navegar a: src/main/java/com/tupojecto/biblioteca/vista/LoginVista.java
+
+2. Click derecho en el archivo
+
+3. Seleccionar "Run 'LoginVista.main()'"
+
+NOTA: Esta opción REQUIERE IntelliJ IDEA porque usa el archivo .form
+
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ OPCIÓN 2: LoginVistaSinForm.java (SIN archivo .form)               │
+│ ★ RECOMENDADA - Funciona en cualquier IDE                          │
+└─────────────────────────────────────────────────────────────────────┘
+
+1. Navegar a: src/main/java/com/tupojecto/biblioteca/vista/LoginVistaSinForm.java
+
+2. Click derecho en el archivo
+
+3. Seleccionar "Run 'LoginVistaSinForm.main()'"
+
+VENTAJAS:
+✓ Funciona en Eclipse, NetBeans, VS Code, IntelliJ
+✓ No depende de archivos .form
+✓ Interfaz creada 100% con código Java
+✓ Muestra las credenciales de prueba en la ventana
+
+================================================================================
+PASO 5: PROBAR EL SISTEMA
+================================================================================
+
+Al ejecutar el proyecto, verás la ventana de Login:
+
+┌──────────────────────────────────────┐
+│   Sistema de Biblioteca UDB          │
+│                                      │
+│   Usuario:    [_______________]      │
+│   Contraseña: [_______________]      │
+│                                      │
+│        [ INGRESAR ]                  │
+│                                      │
+│   Credenciales de prueba:            │
+│   Admin: admin / admin123            │
+│   Profesor: jperez / profesor123     │
+│   Alumno: mgarcia / alumno123        │
+└──────────────────────────────────────┘
+
+CREDENCIALES DE PRUEBA:
+------------------------
+ADMINISTRADOR (acceso total):
+  Usuario: admin
+  Contraseña: admin123
+
+PROFESOR (consultas y préstamos):
+  Usuario: jperez
+  Contraseña: profesor123
+
+ALUMNO (consultas y préstamos):
+  Usuario: mgarcia
+  Contraseña: alumno123
+
+ALUMNO 2:
+  Usuario: clopez
+  Contraseña: alumno123
+
+================================================================================
+FUNCIONALIDADES POR TIPO DE USUARIO
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ ADMINISTRADOR (admin)                                               │
+└─────────────────────────────────────────────────────────────────────┘
+Tiene acceso a TODAS las funcionalidades:
+
+✓ Consultar Documentos - Ver catálogo completo
+✓ Mis Préstamos - Ver sus préstamos
+✓ Gestión de Usuarios - Crear usuarios, resetear contraseñas
+✓ Gestión de Documentos - Agregar libros, revistas, tesis, CDs, documentos
+✓ Gestión de Préstamos - Crear préstamos para usuarios
+✓ Gestión de Devoluciones - Registrar devoluciones
+✓ Configuración de Préstamos - Marcar documentos como prestables/no prestables
+✓ Calcular Moras - Ver y calcular moras de préstamos atrasados
+✓ Reportes - Generar reportes del sistema
+
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ PROFESOR / ALUMNO                                                   │
+└─────────────────────────────────────────────────────────────────────┘
+
+✓ Consultar Documentos - Buscar en el catálogo
+✓ Mis Préstamos - Ver historial de préstamos
+✓ Solicitar Préstamo - Solicitar préstamo de documentos disponibles
+
+================================================================================
+FLUJO DE USO COMPLETO - DEMOSTRACIÓN
+================================================================================
+
+1. LOGIN COMO ADMINISTRADOR
+   - Usuario: admin
+   - Contraseña: admin123
+   - Click en "Ingresar"
+
+2. CREAR UN NUEVO USUARIO
+   - Click en "Gestión de Usuarios"
+   - Click en "Nuevo Usuario"
+   - Llenar datos:
+     * Nombre: Pedro Martínez
+     * Username: pmartinez
+     * Contraseña: alumno123
+     * Tipo: Alumno
+   - Click OK
+   - Ver que aparece en la lista
+
+3. AGREGAR UN NUEVO DOCUMENTO
+   - Volver al menú principal
+   - Click en "Gestión de Documentos"
+   - Click en "Nuevo Documento"
+   - Llenar datos:
+     * Título: Programación Orientada a Objetos
+     * Autor: Deitel & Deitel
+     * Tipo: 1 - Libro
+     * Año: 2023
+     * Editorial: Pearson
+     * Cantidad: 5
+     * Ubicación: Estante A-1
+   - Click OK
+   - Ver que aparece en la lista
+
+4. CONSULTAR DOCUMENTOS
+   - Volver al menú principal
+   - Click en "Consultar Documentos"
+   - Buscar por título: "Programación"
+   - Ver resultados
+
+5. CREAR UN PRÉSTAMO
+   - Volver al menú principal
+   - Click en "Gestión de Préstamos"
+   - Click en "Nuevo Préstamo"
+   - Seleccionar:
+     * Usuario: Pedro Martínez
+     * Documento: Programación Orientada a Objetos
+     * Días: 7
+   - Click OK
+   - Ver el préstamo en la lista
+
+6. REGISTRAR DEVOLUCIÓN
+   - Volver al menú principal
+   - Click en "Gestión de Devoluciones"
+   - Seleccionar el préstamo de Pedro
+   - Click en "Registrar Devolución"
+   - Confirmar
+
+7. CERRAR SESIÓN Y LOGIN COMO ALUMNO
+   - Click en "Cerrar Sesión"
+   - Ingresar como: mgarcia / alumno123
+   - Ver opciones limitadas (sin gestión)
+   - Click en "Solicitar Préstamo"
+   - Solicitar un documento
+
+================================================================================
+SOLUCIÓN DE PROBLEMAS COMUNES
+================================================================================
+
+❌ ERROR: "Communications link failure"
+✓ SOLUCIÓN:
+  - Verificar que MySQL esté corriendo
+  - En Windows: Services -> MySQL -> Start
+  - En Mac/Linux: sudo systemctl start mysql
+  - Verificar que el puerto sea 3306
+  - Verificar credenciales en ConexionDB.java
+
+❌ ERROR: "Access denied for user 'root'@'localhost'"
+✓ SOLUCIÓN:
+  - Cambiar PASSWORD en ConexionDB.java con tu contraseña real de MySQL
+  - Si no recuerdas tu contraseña, resetearla en MySQL
+
+❌ ERROR: "Driver not found" o "ClassNotFoundException"
+✓ SOLUCIÓN:
+  - Verificar que Maven descargó las dependencias
+  - IntelliJ: View -> Tool Windows -> Maven -> Reload All Maven Projects
+  - Verificar pom.xml tiene la dependencia mysql-connector-java
+
+❌ ERROR: "Table 'biblioteca_db.usuarios' doesn't exist"
+✓ SOLUCIÓN:
+  - Ejecutar el archivo database_schema.sql COMPLETO
+  - Verificar en MySQL: USE biblioteca_db; SHOW TABLES;
+
+❌ ERROR: Los componentes del formulario no aparecen
+✓ SOLUCIÓN:
+  - Usar LoginVistaSinForm.java en lugar de LoginVista.java
+  - O verificar que el archivo LoginVista.form esté presente
+
+❌ ERROR: Maven no descarga dependencias
+✓ SOLUCIÓN:
+  - Verificar conexión a Internet
+  - IntelliJ: File -> Settings -> Build -> Build Tools -> Maven
+  - Verificar que "Work offline" NO esté marcado
+  - Click en "Reload All Maven Projects"
+
+================================================================================
+ESTRUCTURA DE ARCHIVOS DEL PROYECTO
+================================================================================
+
+ProyectoBiblioteca/
+│
+├── src/main/java/com/tupojecto/biblioteca/
+│   ├── dao/                      # Data Access Objects (JDBC)
+│   │   ├── ConexionDB.java       ★ CONFIGURAR CREDENCIALES AQUÍ
+│   │   ├── UsuarioDAO.java
+│   │   ├── DocumentoDAO.java
+│   │   ├── PrestamoDAO.java
+│   │   └── MoraDAO.java
+│   │
+│   ├── modelo/                   # Clases modelo (POO)
+│   │   ├── Usuario.java
+│   │   ├── Documento.java
+│   │   └── Prestamo.java
+│   │
+│   └── vista/                    # Interfaces gráficas
+│       ├── LoginVista.java       # CON archivo .form
+│       ├── LoginVista.form
+│       ├── LoginVistaSinForm.java ★ RECOMENDADO - EJECUTAR ESTE
+│       ├── MenuPrincipalVista.java
+│       ├── GestionUsuariosVista.java
+│       ├── GestionDocumentosVista.java
+│       ├── ConsultaDocumentosVista.java
+│       ├── GestionPrestamosVista.java
+│       ├── GestionDevolucionesVista.java
+│       ├── MisPrestamosVista.java
+│       └── SolicitudPrestamoVista.java
+│
+├── database_schema.sql           ★ EJECUTAR EN MYSQL PRIMERO
+├── pom.xml                       # Configuración Maven
+├── GUIA_COMPLETA.txt            # Este archivo
+└── INSTRUCCIONES.txt            # Resumen rápido
+
+================================================================================
+CHECKLIST ANTES DE PRESENTAR
+================================================================================
+
+□ MySQL instalado y corriendo
+□ Base de datos "biblioteca_db" creada
+□ Tablas creadas (ejecutar database_schema.sql)
+□ Datos de prueba insertados (usuarios, tipos de documentos)
+□ Credenciales configuradas en ConexionDB.java
+□ Proyecto abierto en IntelliJ IDEA
+□ Maven descargó dependencias (mysql-connector-java)
+□ El programa ejecuta sin errores
+□ Puedo hacer login con admin/admin123
+□ Puedo crear usuarios
+□ Puedo agregar documentos
+□ Puedo crear préstamos
+□ Puedo registrar devoluciones
+□ Probé con los 3 tipos de usuarios (Admin, Profesor, Alumno)
+
+================================================================================
+TIPS PARA LA PRESENTACIÓN
+================================================================================
+
+1. PREPARACIÓN
+   - Ejecutar database_schema.sql ANTES de la presentación
+   - Tener el programa ya abierto y compilado
+   - Tener MySQL corriendo
+
+2. DURANTE LA DEMOSTRACIÓN
+   - Mostrar primero el login
+   - Demostrar como Administrador (todas las funciones)
+   - Cerrar sesión y demostrar como Alumno (funciones limitadas)
+   - Explicar la diferencia de privilegios
+
+3. PUNTOS A DESTACAR
+   - 3 tipos de usuarios con privilegios diferentes
+   - Validación de mora antes de préstamos
+   - Actualización automática de cantidades disponibles
+   - Transacciones en base de datos (rollback si falla)
+   - Búsqueda de documentos
+   - Cálculo automático de moras
+
+4. CONCEPTOS DE POO A MENCIONAR
+   - Encapsulamiento (atributos privados, getters/setters)
+   - Clases modelo (Usuario, Documento, Prestamo)
+   - Patrón DAO (separación de lógica)
+   - Manejo de excepciones (try-catch)
+
+5. CONCEPTOS DE BD A MENCIONAR
+   - Conexión JDBC
+   - PreparedStatement (prevenir SQL injection)
+   - Transacciones (commit/rollback)
+   - JOIN entre tablas
+   - Foreign keys para integridad
+
+================================================================================
+¿NECESITAS AYUDA?
+================================================================================
+
+Si después de seguir esta guía aún tienes problemas:
+
+1. Verifica PASO POR PASO esta guía
+2. Lee la sección "SOLUCIÓN DE PROBLEMAS COMUNES"
+3. Verifica que MySQL esté corriendo
+4. Verifica que ejecutaste database_schema.sql COMPLETO
+5. Usa LoginVistaSinForm.java que es más compatible
+
+================================================================================
+¡ÉXITO EN TU PROYECTO!
+================================================================================
