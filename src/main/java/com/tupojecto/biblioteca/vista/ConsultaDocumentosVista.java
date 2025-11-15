@@ -14,6 +14,7 @@ public class ConsultaDocumentosVista {
     private JTable tablaDocumentos;
     private DefaultTableModel modeloTabla;
     private JTextField txtBuscar;
+    private JCheckBox chkSoloDisponibles;
     private DocumentoDAO documentoDAO;
     private Usuario usuarioActual;
 
@@ -48,6 +49,11 @@ public class ConsultaDocumentosVista {
         btnMostrarTodos.addActionListener(e -> cargarDocumentos());
         panelBusqueda.add(btnMostrarTodos);
 
+        // Filtro: solo disponibles
+        chkSoloDisponibles = new JCheckBox("Solo disponibles");
+        chkSoloDisponibles.addActionListener(e -> cargarDocumentos());
+        panelBusqueda.add(chkSoloDisponibles);
+
         panelSuperior.add(panelBusqueda, BorderLayout.CENTER);
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
@@ -74,7 +80,9 @@ public class ConsultaDocumentosVista {
     private void cargarDocumentos() {
         modeloTabla.setRowCount(0);
         try {
-            List<Documento> documentos = documentoDAO.listarTodos();
+            List<Documento> documentos = chkSoloDisponibles != null && chkSoloDisponibles.isSelected()
+                    ? documentoDAO.listarDisponibles()
+                    : documentoDAO.listarTodos();
             for (Documento d : documentos) {
                 Object[] fila = {
                         d.getIdDocumento(),
@@ -109,7 +117,9 @@ public class ConsultaDocumentosVista {
 
         modeloTabla.setRowCount(0);
         try {
-            List<Documento> documentos = documentoDAO.buscarPorTitulo(termino);
+            List<Documento> documentos = (chkSoloDisponibles != null && chkSoloDisponibles.isSelected())
+                    ? documentoDAO.buscarPorTituloDisponibles(termino)
+                    : documentoDAO.buscarPorTitulo(termino);
 
             if (documentos.isEmpty()) {
                 JOptionPane.showMessageDialog(panelPrincipal,

@@ -126,27 +126,30 @@ public class MenuPrincipalVista {
     }
 
     private void abrirConfiguracionPrestamos() {
-        JOptionPane.showMessageDialog(panelPrincipal,
-                "Funcionalidad de Configuración de Préstamos\n" +
-                        "Aquí se configurará la cantidad de días de préstamo y mora diaria.",
-                "Configuración",
-                JOptionPane.INFORMATION_MESSAGE);
+        JFrame frame = new JFrame("Configuración de Préstamos");
+        frame.setContentPane(new ConfiguracionPrestamosVista(usuarioActual).getPanelPrincipal());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(500, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     private void abrirCalculoMoras() {
-        JOptionPane.showMessageDialog(panelPrincipal,
-                "Funcionalidad de Cálculo de Moras\n" +
-                        "Aquí se calcularán las moras por préstamos atrasados.",
-                "Cálculo de Moras",
-                JOptionPane.INFORMATION_MESSAGE);
+        JFrame frame = new JFrame("Cálculo de Moras");
+        frame.setContentPane(new CalculoMorasVista(usuarioActual).getPanelPrincipal());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(900, 500);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     private void abrirReportes() {
-        JOptionPane.showMessageDialog(panelPrincipal,
-                "Funcionalidad de Reportes\n" +
-                        "Aquí se generarán reportes del sistema.",
-                "Reportes",
-                JOptionPane.INFORMATION_MESSAGE);
+        JFrame frame = new JFrame("Reportes del Sistema");
+        frame.setContentPane(new ReportesVista(usuarioActual).getPanelPrincipal());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(900, 600);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     private void abrirSolicitudPrestamo() {

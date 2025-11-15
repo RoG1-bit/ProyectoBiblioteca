@@ -46,7 +46,7 @@ SOLUCIÓN:
      1. Abrir: src/main/java/com/tupojecto/biblioteca/dao/ConexionDB.java
 
      2. Ver líneas 10-12:
-        private static final String URL = "jdbc:mysql://localhost:3306/biblioteca_db";
+        private static final String URL = "jdbc:mysql://localhost:3306/biblioteca";
         private static final String USER = "root";
         private static final String PASSWORD = "root";
 
@@ -58,11 +58,11 @@ SOLUCIÓN:
 
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃  PROBLEMA 2: "Base de datos 'biblioteca_db' NO EXISTE"                   ┃
+┃  PROBLEMA 2: "Base de datos 'biblioteca' NO EXISTE"                      ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 SI VES ESTE ERROR en el diagnóstico:
-  ✗ ERROR: Base de datos 'biblioteca_db' NO EXISTE
+  ✗ ERROR: Base de datos 'biblioteca' NO EXISTE
 
 SOLUCIÓN:
 
@@ -79,7 +79,7 @@ SOLUCIÓN:
   6. Esperar a que termine (deberías ver "Action Output" en verde)
 
   7. Verificar ejecutando:
-     USE biblioteca_db;
+     USE biblioteca;
      SHOW TABLES;
 
      Deberías ver 6 tablas:
@@ -182,7 +182,7 @@ SOLUCIÓN:
 Puedes verificar manualmente en MySQL Workbench:
 
   1. Ejecuta:
-     USE biblioteca_db;
+     USE biblioteca;
 
   2. Ejecuta:
      SELECT * FROM usuarios WHERE username = 'admin';
@@ -206,14 +206,14 @@ Puedes verificar manualmente en MySQL Workbench:
 Si nada funciona, empieza de nuevo:
 
   1. En MySQL Workbench, eliminar la BD:
-     DROP DATABASE IF EXISTS biblioteca_db;
+     DROP DATABASE IF EXISTS biblioteca;
 
   2. Abrir database_schema.sql
 
   3. Ejecutar TODO el archivo (⚡)
 
   4. Verificar:
-     USE biblioteca_db;
+     USE biblioteca;
      SELECT * FROM usuarios;
 
   5. Deberías ver 4 usuarios

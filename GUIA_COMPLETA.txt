@@ -30,7 +30,7 @@ PASO 1: CONFIGURAR LA BASE DE DATOS
    O copiar y pegar todo el contenido del archivo en la consola MySQL
 
 3. Verificar que se creó la base de datos:
-   - Ejecutar: USE biblioteca_db;
+   - Ejecutar: USE biblioteca;
    - Ejecutar: SHOW TABLES;
    - Deberías ver: configuracion_prestamos, documentos, moras, prestamos,
                     tipos_documento, usuarios
@@ -46,7 +46,7 @@ PASO 2: CONFIGURAR CREDENCIALES DE BASE DE DATOS
 1. Abrir el archivo: src/main/java/com/tupojecto/biblioteca/dao/ConexionDB.java
 
 2. Buscar estas líneas (líneas 10-12):
-   private static final String URL = "jdbc:mysql://localhost:3306/biblioteca_db";
+   private static final String URL = "jdbc:mysql://localhost:3306/biblioteca";
    private static final String USER = "root";
    private static final String PASSWORD = "root";
 
@@ -267,10 +267,10 @@ SOLUCIÓN DE PROBLEMAS COMUNES
   - IntelliJ: View -> Tool Windows -> Maven -> Reload All Maven Projects
   - Verificar pom.xml tiene la dependencia mysql-connector-java
 
-❌ ERROR: "Table 'biblioteca_db.usuarios' doesn't exist"
+❌ ERROR: "Table 'biblioteca.usuarios' doesn't exist"
 ✓ SOLUCIÓN:
   - Ejecutar el archivo database_schema.sql COMPLETO
-  - Verificar en MySQL: USE biblioteca_db; SHOW TABLES;
+  - Verificar en MySQL: USE biblioteca; SHOW TABLES;
 
 ❌ ERROR: Los componentes del formulario no aparecen
 ✓ SOLUCIÓN:
@@ -326,7 +326,7 @@ CHECKLIST ANTES DE PRESENTAR
 ================================================================================
 
 □ MySQL instalado y corriendo
-□ Base de datos "biblioteca_db" creada
+□ Base de datos "biblioteca" creada
 □ Tablas creadas (ejecutar database_schema.sql)
 □ Datos de prueba insertados (usuarios, tipos de documentos)
 □ Credenciales configuradas en ConexionDB.java

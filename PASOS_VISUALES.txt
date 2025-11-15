@@ -33,13 +33,13 @@
   1.4 Verificar creación
       Escribir en una nueva pestaña:
       ┌─────────────────────────────────────────┐
-      │  USE biblioteca_db;                     │
+      │  USE biblioteca;                        │
       │  SHOW TABLES;                           │
       └─────────────────────────────────────────┘
 
       Deberías ver:
       +--------------------------------+
-      | Tables_in_biblioteca_db        |
+      | Tables_in_biblioteca           |
       +--------------------------------+
       | configuracion_prestamos        |
       | documentos                     |

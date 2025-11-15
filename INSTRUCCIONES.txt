@@ -22,12 +22,12 @@ PASOS PARA CONFIGURAR LA BASE DE DATOS
 1. Abrir MySQL Workbench o línea de comandos de MySQL
 
 2. Ejecutar el archivo: database_schema.sql
-   - Este archivo creará la base de datos "biblioteca_db"
+   - Este archivo creará la base de datos "biblioteca"
    - Creará todas las tablas necesarias
    - Insertará datos de prueba (usuarios, tipos de documentos, configuración)
 
 3. Credenciales por defecto en ConexionDB.java:
-   - URL: jdbc:mysql://localhost:3306/biblioteca_db
+   - URL: jdbc:mysql://localhost:3306/biblioteca
    - USER: root
    - PASSWORD: root
 

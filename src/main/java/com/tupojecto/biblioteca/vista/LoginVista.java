@@ -4,22 +4,24 @@ import com.tupojecto.biblioteca.dao.UsuarioDAO;
 import com.tupojecto.biblioteca.modelo.Usuario;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginVista {
     private JPanel panelPrincipal;
-    private JLabel Usuario;
-    private JLabel Contraseña;
+    private JLabel lblUsuario;
+    private JLabel lblContrasena;
     private JTextField txtUsuario;
     private JPasswordField txtPassword;
     private JButton btnIngresar;
 
-    private UsuarioDAO usuarioDAO;
+    private final UsuarioDAO usuarioDAO;
 
     // Constructor de la clase LoginVista
     public LoginVista() {
         usuarioDAO = new UsuarioDAO();
+        inicializarComponentes();
 
         // Lógica del botón Ingresar
         btnIngresar.addActionListener(new ActionListener() {
@@ -36,6 +38,62 @@ public class LoginVista {
                 autenticarUsuario();
             }
         });
+    }
+
+    // Inicializa y organiza los componentes de la interfaz
+    private void inicializarComponentes() {
+        panelPrincipal = new JPanel(new GridBagLayout());
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Título
+        JLabel lblTitulo = new JLabel("Sistema de Biblioteca UDB");
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        panelPrincipal.add(lblTitulo, gbc);
+
+        // Etiqueta Usuario
+        lblUsuario = new JLabel("Usuario:");
+        lblUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        panelPrincipal.add(lblUsuario, gbc);
+
+        // Campo Usuario
+        txtUsuario = new JTextField(20);
+        txtUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panelPrincipal.add(txtUsuario, gbc);
+
+        // Etiqueta Contraseña
+        lblContrasena = new JLabel("Contraseña:");
+        lblContrasena.setFont(new Font("Arial", Font.PLAIN, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panelPrincipal.add(lblContrasena, gbc);
+
+        // Campo Contraseña
+        txtPassword = new JPasswordField(20);
+        txtPassword.setFont(new Font("Arial", Font.PLAIN, 14));
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        panelPrincipal.add(txtPassword, gbc);
+
+        // Botón Ingresar
+        btnIngresar = new JButton("Ingresar");
+        btnIngresar.setFont(new Font("Arial", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        panelPrincipal.add(btnIngresar, gbc);
     }
 
     // Método para autenticar usuario

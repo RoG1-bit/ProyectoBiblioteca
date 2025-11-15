@@ -7,7 +7,9 @@ import java.sql.SQLException;
 public class ConexionDB {
 
     // Configuración de la base de datos
-    private static final String URL = "jdbc:mysql://localhost:3306/biblioteca_db";
+    // Nota: El esquema del proyecto utiliza la base `biblioteca` (ver database_schema.sql)
+    // Se agregan parámetros recomendados para evitar errores comunes de conexión con MySQL 8+
+    private static final String URL = "jdbc:mysql://localhost:3306/biblioteca?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
@@ -21,7 +23,7 @@ public class ConexionDB {
 
         } catch (ClassNotFoundException e) {
             // Manejo de Excepciones (Clase 9)
-            throw new SQLException("Error: Driver de MySQL no encontrado", e);
+            throw new SQLException("Error: Driver de MySQL no encontrado. Asegúrate de tener mysql-connector-java en el classpath (pom.xml)", e);
         }
     }
 

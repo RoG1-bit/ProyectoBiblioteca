@@ -8,6 +8,42 @@ import java.util.List;
 
 public class DocumentoDAO {
 
+    // Inserta los tipos de documento estándar si no existen
+    private void asegurarTiposDocumento() {
+        String[][] tipos = new String[][]{
+                {"Libro", "Libros de texto, novelas, etc."},
+                {"Revista", "Publicaciones periódicas"},
+                {"Tesis", "Trabajos de investigación universitaria"},
+                {"CD", "Discos compactos con contenido multimedia"},
+                {"Documento", "Documentos varios de información"},
+                {"Periódico", "Publicaciones diarias o semanales de noticias"},
+                {"Mapa", "Representaciones geográficas de territorios"},
+                {"DVD", "Discos de video digital para películas o datos"},
+                {"Blu-ray", "Disco óptico de alta definición"},
+                {"Audiolibro", "Grabaciones de libros leídos en voz alta"},
+                {"Manuscrito", "Documentos históricos o textos escritos a mano"},
+                {"Partitura", "Notación musical escrita"},
+                {"Artículo Científico", "Publicación en una revista especializada o journal"},
+                {"Enciclopedia", "Obra de referencia con conocimiento compendiado"},
+                {"Software", "Programas de computadora o recursos digitales"}
+        };
+
+        // Usamos INSERT con ON DUPLICATE KEY para que sea idempotente
+        String sql = "INSERT INTO tipos_documento (nombre_tipo, descripcion) VALUES (?, ?) " +
+                "ON DUPLICATE KEY UPDATE nombre_tipo = nombre_tipo";
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            for (String[] t : tipos) {
+                ps.setString(1, t[0]);
+                ps.setString(2, t[1]);
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException ignored) {
+            // No interrumpir el flujo si falla el seed; las consultas podrán seguir
+        }
+    }
+
     // Insertar nuevo documento
     public boolean insertarDocumento(Documento documento) {
         String sql = "INSERT INTO documentos (titulo, autor, id_tipo, anio_publicacion, editorial, isbn, " +
@@ -40,6 +76,7 @@ public class DocumentoDAO {
 
     // Buscar documento por ID
     public Documento buscarPorId(int idDocumento) {
+        asegurarTiposDocumento();
         String sql = "SELECT d.*, t.nombre_tipo FROM documentos d " +
                      "JOIN tipos_documento t ON d.id_tipo = t.id_tipo " +
                      "WHERE d.id_documento = ?";
@@ -65,6 +102,7 @@ public class DocumentoDAO {
     // Buscar documentos por título (búsqueda parcial)
     public List<Documento> buscarPorTitulo(String titulo) {
         List<Documento> documentos = new ArrayList<>();
+        asegurarTiposDocumento();
         String sql = "SELECT d.*, t.nombre_tipo FROM documentos d " +
                      "JOIN tipos_documento t ON d.id_tipo = t.id_tipo " +
                      "WHERE d.titulo LIKE ? ORDER BY d.titulo";
@@ -87,9 +125,41 @@ public class DocumentoDAO {
         return documentos;
     }
 
+    // Buscar documentos por título que estén disponibles para préstamo
+    public List<Documento> buscarPorTituloDisponibles(String titulo) {
+        List<Documento> documentos = new ArrayList<>();
+        asegurarTiposDocumento();
+        // LEFT JOIN para no perder documentos si el tipo no existe o está inconsistente
+        // COALESCE en cantidad_disponible para tolerar NULL (lo tratamos como cantidad_total)
+        String sql = "SELECT d.*, t.nombre_tipo FROM documentos d " +
+                     "LEFT JOIN tipos_documento t ON d.id_tipo = t.id_tipo " +
+                     "WHERE d.titulo LIKE ? " +
+                     "AND COALESCE(d.cantidad_disponible, d.cantidad_total, 0) > 0 " +
+                     "AND COALESCE(d.es_prestable, 1) <> 0 " +
+                     "ORDER BY d.titulo";
+
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + titulo + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                documentos.add(crearDocumentoDesdeResultSet(rs));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al buscar documentos disponibles: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return documentos;
+    }
+
     // Listar todos los documentos
     public List<Documento> listarTodos() {
         List<Documento> documentos = new ArrayList<>();
+        asegurarTiposDocumento();
         String sql = "SELECT d.*, t.nombre_tipo FROM documentos d " +
                      "JOIN tipos_documento t ON d.id_tipo = t.id_tipo " +
                      "ORDER BY d.titulo";
@@ -113,9 +183,13 @@ public class DocumentoDAO {
     // Listar documentos disponibles para préstamo
     public List<Documento> listarDisponibles() {
         List<Documento> documentos = new ArrayList<>();
+        asegurarTiposDocumento();
+        // LEFT JOIN para no perder filas si el tipo quedó sin referenciar
+        // COALESCE para tolerar cantidad_disponible NULL
         String sql = "SELECT d.*, t.nombre_tipo FROM documentos d " +
-                     "JOIN tipos_documento t ON d.id_tipo = t.id_tipo " +
-                     "WHERE d.cantidad_disponible > 0 AND d.es_prestable = TRUE " +
+                     "LEFT JOIN tipos_documento t ON d.id_tipo = t.id_tipo " +
+                     "WHERE COALESCE(d.cantidad_disponible, d.cantidad_total, 0) > 0 " +
+                     "AND COALESCE(d.es_prestable, 1) <> 0 " +
                      "ORDER BY d.titulo";
 
         try (Connection conn = ConexionDB.getConnection();

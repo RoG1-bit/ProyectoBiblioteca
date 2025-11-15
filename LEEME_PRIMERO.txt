@@ -73,7 +73,7 @@
   4. Ejecutar todo (⚡ o Ctrl+Shift+Enter)
 
   5. Verificar:
-     USE biblioteca_db;
+     USE biblioteca;
      SHOW TABLES;
 
   ✓ Deberías ver 6 tablas creadas

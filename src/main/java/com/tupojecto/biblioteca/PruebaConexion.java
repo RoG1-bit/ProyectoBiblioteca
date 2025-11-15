@@ -28,7 +28,7 @@ public class PruebaConexion {
         try (Connection conn = ConexionDB.getConnection()) {
             if (conn != null && !conn.isClosed()) {
                 System.out.println("✓ ÉXITO: Conexión a base de datos establecida");
-                System.out.println("  Base de datos: biblioteca_db");
+                System.out.println("  Base de datos: biblioteca");
                 System.out.println("  Host: localhost:3306\n");
             }
         } catch (Exception e) {

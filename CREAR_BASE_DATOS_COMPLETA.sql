@@ -3,14 +3,11 @@
 -- Ejecuta TODO este archivo en MySQL Workbench
 -- ============================================================================
 
--- Eliminar la base de datos si existe (para empezar limpio)
-DROP DATABASE IF EXISTS biblioteca_db;
+DROP DATABASE IF EXISTS biblioteca;
 
--- Crear la base de datos
-CREATE DATABASE biblioteca_db;
+CREATE DATABASE biblioteca;
 
--- Usar la base de datos
-USE biblioteca_db;
+USE biblioteca;
 
 -- ============================================================================
 -- CREAR TABLAS
@@ -108,6 +105,67 @@ INSERT INTO usuarios (nombre, username, password, tipo_usuario, tiene_mora) VALU
 ('Juan Pérez', 'jperez', 'profesor123', 'Profesor', FALSE),
 ('María García', 'mgarcia', 'alumno123', 'Alumno', FALSE),
 ('Carlos López', 'clopez', 'alumno123', 'Alumno', FALSE);
+
+
+-- Usamos la base de datos 'biblioteca'
+USE biblioteca;
+
+-- ============================================================================
+-- INSERTAR DOCUMENTOS DE PRUEBA (Libros, Revistas, Tesis, etc.)
+-- ============================================================================
+-- Nota:
+-- id_tipo = 1 es 'Libro'
+-- id_tipo = 2 es 'Revista'
+-- id_tipo = 3 es 'Tesis'
+-- id_tipo = 4 es 'CD'
+-- id_tipo = 5 es 'Documento'
+-- ============================================================================
+
+INSERT INTO documentos (
+    titulo,
+    autor,
+    id_tipo, -- El ID de la tabla 'tipos_documento'
+    anio_publicacion,
+    editorial,
+    isbn,
+    cantidad_total,
+    cantidad_disponible,
+    ubicacion_fisica
+) VALUES
+-- Libros (id_tipo = 1)
+('Cien Años de Soledad', 'Gabriel García Márquez', 1, 1967, 'Sudamericana', '978-030735044X', 5, 5, 'F-A-01'),
+('1984', 'George Orwell', 1, 1949, 'Secker & Warburg', '978-0451524935', 4, 4, 'F-B-02'),
+('El Señor de los Anillos: La Comunidad del Anillo', 'J.R.R. Tolkien', 1, 1954, 'Allen & Unwin', '978-0618640157', 3, 3, 'F-C-03'),
+('Harry Potter y la Piedra Filosofal', 'J.K. Rowling', 1, 1997, 'Bloomsbury', '978-0747532699', 10, 10, 'F-J-01'),
+('Cálculo: Trascendentes Tempranas', 'James Stewart', 1, 2015, 'Cengage', '978-1305266643', 8, 8, 'CI-A-11'),
+('Física para la ciencia y la tecnología', 'Paul Tipler', 1, 2009, 'Reverté', '978-8429144291', 5, 5, 'CI-B-12'),
+('Introducción a la Programación con Java', 'Paul Deitel', 1, 2017, 'Pearson', '978-0134743356', 6, 6, 'CI-C-13'),
+('Don Quijote de la Mancha', 'Miguel de Cervantes', 1, 1605, 'Francisco de Robles', '978-8424117631', 3, 3, 'CL-A-01'),
+
+-- Revistas (id_tipo = 2)
+('National Geographic (Octubre 2025)', 'Varios', 2, 2025, 'NatGeo Society', NULL, 15, 15, 'R-01'),
+('Scientific American (Noviembre 2025)', 'Varios', 2, 2025, 'Springer Nature', NULL, 12, 12, 'R-02'),
+('Harvard Business Review (Q4 2025)', 'Varios', 2, 2025, 'HBR', NULL, 10, 10, 'R-03'),
+
+-- Tesis (id_tipo = 3)
+('Impacto de la IA en el Diagnóstico Médico', 'Ana Sofía Gómez', 3, 2024, 'Universidad Local', NULL, 2, 2, 'T-01'),
+('Optimización de Cadenas de Suministro', 'Luis Fernando Torres', 3, 2023, 'Universidad Local', NULL, 2, 2, 'T-02'),
+
+-- CDs (id_tipo = 4)
+('Curso de Inglés Interactivo B1', 'Audio Learning', 4, 2020, 'Idiomas Inc.', NULL, 20, 20, 'CD-01'),
+('Sinfonías de Beethoven (Colección Completa)', 'Beethoven', 4, 1999, 'Deutsche Grammophon', NULL, 5, 5, 'CD-02'),
+
+-- Documentos (id_tipo = 5)
+('Manual de Convivencia de la Biblioteca', 'Biblioteca Admin', 5, 2022, 'Biblioteca', NULL, 1, 1, 'D-01'),
+('Mapa Histórico de la Ciudad (Réplica)', 'Archivo Municipal', 5, 1980, 'Gobierno Local', NULL, 3, 3, 'D-02');
+
+                                                                                                                           ('Orgullo y Prejuicio', 'Jane Austen', 1, 1813, 'T. Egerton', '978-0199535569', 4, 4, 'CL-A-02'),
+                                                                                                                                              ('Fundamentos de Bases de Datos', 'Silberschatz, Korth, Sudarshan', 1, 2019, 'McGraw-Hill', '978-0078022159', 6, 6, 'CI-C-14');
+
+-- ============================================================================
+-- Verificación
+-- ============================================================================
+SELECT * FROM documentos;
 
 -- ============================================================================
 -- VERIFICACIÓN

@@ -1,7 +1,6 @@
--- Base de datos para Sistema de Biblioteca UDB
 -- Crear base de datos
-CREATE DATABASE IF NOT EXISTS biblioteca_db;
-USE biblioteca_db;
+CREATE DATABASE IF NOT EXISTS biblioteca;
+USE biblioteca;
 
 -- Tabla de Usuarios (Administradores, Profesores, Alumnos)
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -70,13 +69,23 @@ CREATE TABLE IF NOT EXISTS moras (
     FOREIGN KEY (id_prestamo) REFERENCES prestamos(id_prestamo)
 );
 
--- Insertar tipos de documentos predefinidos
-INSERT INTO tipos_documento (nombre_tipo, descripcion) VALUES
+-- Insertar tipos de documentos predefinidos (lista completa). Usamos IGNORE para evitar duplicados si ya existen
+INSERT IGNORE INTO tipos_documento (nombre_tipo, descripcion) VALUES
 ('Libro', 'Libros de texto, novelas, etc.'),
 ('Revista', 'Publicaciones periódicas'),
 ('Tesis', 'Trabajos de investigación universitaria'),
 ('CD', 'Discos compactos con contenido multimedia'),
-('Documento', 'Documentos varios de información');
+('Documento', 'Documentos varios de información'),
+('Periódico', 'Publicaciones diarias o semanales de noticias'),
+('Mapa', 'Representaciones geográficas de territorios'),
+('DVD', 'Discos de video digital para películas o datos'),
+('Blu-ray', 'Disco óptico de alta definición'),
+('Audiolibro', 'Grabaciones de libros leídos en voz alta'),
+('Manuscrito', 'Documentos históricos o textos escritos a mano'),
+('Partitura', 'Notación musical escrita'),
+('Artículo Científico', 'Publicación en una revista especializada o journal'),
+('Enciclopedia', 'Obra de referencia con conocimiento compendiado'),
+('Software', 'Programas de computadora o recursos digitales');
 
 -- Insertar configuración inicial de préstamos
 INSERT INTO configuracion_prestamos (max_ejemplares_prestables, dias_prestamo, mora_diaria)
