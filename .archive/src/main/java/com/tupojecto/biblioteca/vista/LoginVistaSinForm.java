@@ -208,10 +208,6 @@ public class LoginVistaSinForm extends JFrame {
 
     // Método main para ejecutar
     public static void main(String[] args) {
-        // Evitar advertencia de acceso nativo de FlatLaf en Java 21+
-        // Si en el futuro se habilita FlatLaf aquí, este ajuste evitará warnings
-        System.setProperty("flatlaf.useNativeLibrary", "false");
-
         // Configurar look and feel del sistema
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

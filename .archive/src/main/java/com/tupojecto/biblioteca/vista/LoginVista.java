@@ -2,7 +2,6 @@ package com.tupojecto.biblioteca.vista;
 
 import com.tupojecto.biblioteca.dao.UsuarioDAO;
 import com.tupojecto.biblioteca.modelo.Usuario;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +44,6 @@ public class LoginVista {
     private void inicializarComponentes() {
         panelPrincipal = new JPanel(new GridBagLayout());
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-        panelPrincipal.setBackground(UIManager.getColor("Panel.background"));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -53,7 +51,7 @@ public class LoginVista {
 
         // Título
         JLabel lblTitulo = new JLabel("Sistema de Biblioteca UDB");
-        lblTitulo.setFont(lblTitulo.getFont().deriveFont(Font.BOLD, 22f));
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -62,7 +60,7 @@ public class LoginVista {
 
         // Etiqueta Usuario
         lblUsuario = new JLabel("Usuario:");
-        lblUsuario.setFont(lblUsuario.getFont().deriveFont(Font.PLAIN, 14f));
+        lblUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -70,33 +68,28 @@ public class LoginVista {
 
         // Campo Usuario
         txtUsuario = new JTextField(20);
-        txtUsuario.setFont(txtUsuario.getFont().deriveFont(Font.PLAIN, 14f));
-        // Placeholder estilo Material (FlatLaf)
-        txtUsuario.putClientProperty("JTextComponent.placeholderText", "Ingrese su usuario");
+        txtUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 1;
         gbc.gridy = 1;
         panelPrincipal.add(txtUsuario, gbc);
 
         // Etiqueta Contraseña
         lblContrasena = new JLabel("Contraseña:");
-        lblContrasena.setFont(lblContrasena.getFont().deriveFont(Font.PLAIN, 14f));
+        lblContrasena.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 0;
         gbc.gridy = 2;
         panelPrincipal.add(lblContrasena, gbc);
 
         // Campo Contraseña
         txtPassword = new JPasswordField(20);
-        txtPassword.setFont(txtPassword.getFont().deriveFont(Font.PLAIN, 14f));
-        txtPassword.putClientProperty("JTextComponent.placeholderText", "Ingrese su contraseña");
+        txtPassword.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridx = 1;
         gbc.gridy = 2;
         panelPrincipal.add(txtPassword, gbc);
 
         // Botón Ingresar
         btnIngresar = new JButton("Ingresar");
-        btnIngresar.setFont(btnIngresar.getFont().deriveFont(Font.BOLD, 14f));
-        // Estilo Material (bordes redondeados y botón por defecto)
-        btnIngresar.putClientProperty("JButton.buttonType", "roundRect");
+        btnIngresar.setFont(new Font("Arial", Font.BOLD, 14));
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
@@ -167,23 +160,6 @@ public class LoginVista {
 
     // Método main para INICIAR esta ventana
     public static void main(String[] args) {
-        // Evitar advertencia de acceso nativo de FlatLaf en Java 21+
-        // Si desea mantener las funciones nativas, ejecute la app con:
-        //   --enable-native-access=ALL-UNNAMED
-        // En caso contrario, desactivamos la librería nativa de FlatLaf:
-        System.setProperty("flatlaf.useNativeLibrary", "false");
-
-        // Aplicar tema Material de FlatLaf
-        try {
-            FlatMaterialLighterIJTheme.setup();
-            // Ajustes suaves de apariencia global
-            UIManager.put( "Component.arc", 12 );
-            UIManager.put( "Button.arc", 12 );
-            UIManager.put( "TextComponent.arc", 12 );
-        } catch (Exception ex) {
-            System.err.println("No se pudo inicializar el tema FlatLaf: " + ex.getMessage());
-        }
-
         JFrame frame = new JFrame("Sistema de Biblioteca - Login");
         frame.setContentPane(new LoginVista().panelPrincipal);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

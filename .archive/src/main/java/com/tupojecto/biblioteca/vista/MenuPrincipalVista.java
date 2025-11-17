@@ -19,26 +19,22 @@ public class MenuPrincipalVista {
     private void inicializarComponentes() {
         panelPrincipal = new JPanel(new BorderLayout(10, 10));
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panelPrincipal.setBackground(UIManager.getColor("Panel.background"));
 
         // Panel superior con bienvenida
         JPanel panelSuperior = new JPanel(new BorderLayout());
-        panelSuperior.setOpaque(false);
         lblBienvenida = new JLabel("Bienvenido: " + usuarioActual.getNombre() +
                 " (" + usuarioActual.getTipoUsuario() + ")");
-        lblBienvenida.setFont(lblBienvenida.getFont().deriveFont(Font.BOLD, 16f));
+        lblBienvenida.setFont(new Font("Arial", Font.BOLD, 16));
         panelSuperior.add(lblBienvenida, BorderLayout.CENTER);
 
         JButton btnCerrarSesion = new JButton("Cerrar Sesión");
-        btnCerrarSesion.putClientProperty("JButton.buttonType", "roundRect");
         btnCerrarSesion.addActionListener(e -> cerrarSesion());
         panelSuperior.add(btnCerrarSesion, BorderLayout.EAST);
 
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
         // Panel central con menú de opciones
-        panelMenu = new JPanel(new GridLayout(0, 2, 12, 12));
-        panelMenu.setOpaque(false);
+        panelMenu = new JPanel(new GridLayout(0, 2, 10, 10));
         crearMenuSegunTipoUsuario();
         panelPrincipal.add(panelMenu, BorderLayout.CENTER);
     }
@@ -68,9 +64,8 @@ public class MenuPrincipalVista {
 
     private void agregarBoton(String texto, java.awt.event.ActionListener accion) {
         JButton boton = new JButton(texto);
-        boton.setPreferredSize(new Dimension(220, 52));
-        boton.setFont(boton.getFont().deriveFont(Font.PLAIN, 15f));
-        boton.putClientProperty("JButton.buttonType", "roundRect");
+        boton.setPreferredSize(new Dimension(200, 50));
+        boton.setFont(new Font("Arial", Font.PLAIN, 14));
         boton.addActionListener(accion);
         panelMenu.add(boton);
     }
