@@ -2,7 +2,7 @@ package com.tupojecto.biblioteca.vista;
 
 import com.tupojecto.biblioteca.dao.UsuarioDAO;
 import com.tupojecto.biblioteca.modelo.Usuario;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -175,7 +175,7 @@ public class LoginVista {
 
         // Aplicar tema Material de FlatLaf
         try {
-            FlatMaterialLighterIJTheme.setup();
+            FlatLightLaf.setup();
             // Ajustes suaves de apariencia global
             UIManager.put( "Component.arc", 12 );
             UIManager.put( "Button.arc", 12 );
